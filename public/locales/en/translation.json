@@ -111,6 +111,7 @@
         }
     },
     "validation": {
+        "duplicate": "This value already exists.",
         "email": "This field requires a valid email.",
         "maxLength": "This field must contain fewer than {{length}} characters.",
         "min": "This field must be greater than {{value}}.",

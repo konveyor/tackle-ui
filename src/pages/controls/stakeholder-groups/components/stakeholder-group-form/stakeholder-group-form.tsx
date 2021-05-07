@@ -22,7 +22,11 @@ import {
 import { useFetchStakeholders } from "shared/hooks";
 
 import { DEFAULT_SELECT_MAX_HEIGHT } from "Constants";
-import { createStakeholderGroup, updateStakeholderGroup } from "api/rest";
+import {
+  createStakeholderGroup,
+  getStakeholderGroups,
+  updateStakeholderGroup,
+} from "api/rest";
 import { Stakeholder, StakeholderGroup } from "api/models";
 import {
   getAxiosErrorMessage,
@@ -88,7 +92,18 @@ export const StakeholderGroupForm: React.FC<StakeholderGroupFormProps> = ({
       .trim()
       .required(t("validation.required"))
       .min(3, t("validation.minLength", { length: 3 }))
-      .max(120, t("validation.maxLength", { length: 120 })),
+      .max(120, t("validation.maxLength", { length: 120 }))
+      .test("duplicate", t("validation.duplicate"), async (value) => {
+        return await getStakeholderGroups(
+          { name: [value || ""] },
+          { page: 1, perPage: 2 }
+        ).then(({ data }) => {
+          return (
+            !value ||
+            !data._embedded["stakeholder-group"].some((f) => f.name === value)
+          );
+        });
+      }),
     description: string()
       .trim()
       .max(250, t("validation.maxLength", { length: 250 })),
@@ -238,7 +253,7 @@ export const StakeholderGroupForm: React.FC<StakeholderGroupFormProps> = ({
             type="button"
             aria-label="cancel"
             variant={ButtonVariant.link}
-            isDisabled={formik.isSubmitting || formik.isValidating}
+            isDisabled={formik.isSubmitting}
             onClick={onCancel}
           >
             {t("actions.cancel")}

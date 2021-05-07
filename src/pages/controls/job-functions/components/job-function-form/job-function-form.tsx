@@ -14,7 +14,11 @@ import {
   TextInput,
 } from "@patternfly/react-core";
 
-import { createJobFunction, updateJobFunction } from "api/rest";
+import {
+  createJobFunction,
+  getJobFunctions,
+  updateJobFunction,
+} from "api/rest";
 import { JobFunction } from "api/models";
 import {
   getAxiosErrorMessage,
@@ -49,7 +53,18 @@ export const JobFunctionForm: React.FC<JobFunctionFormProps> = ({
       .trim()
       .required(t("validation.required"))
       .min(3, t("validation.minLength", { length: 3 }))
-      .max(120, t("validation.maxLength", { length: 120 })),
+      .max(120, t("validation.maxLength", { length: 120 }))
+      .test("duplicate", t("validation.duplicate"), async (value) => {
+        return await getJobFunctions(
+          { role: [value || ""] },
+          { page: 1, perPage: 2 }
+        ).then(({ data }) => {
+          return (
+            !value ||
+            !data._embedded["job-function"].some((f) => f.role === value)
+          );
+        });
+      }),
   });
 
   const onSubmit = (
@@ -144,7 +159,7 @@ export const JobFunctionForm: React.FC<JobFunctionFormProps> = ({
             type="button"
             aria-label="cancel"
             variant={ButtonVariant.link}
-            isDisabled={formik.isSubmitting || formik.isValidating}
+            isDisabled={formik.isSubmitting}
             onClick={onCancel}
           >
             {t("actions.cancel")}

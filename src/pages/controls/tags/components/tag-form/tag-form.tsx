@@ -21,7 +21,7 @@ import {
 import { useFetchTagTypes } from "shared/hooks";
 
 import { DEFAULT_SELECT_MAX_HEIGHT } from "Constants";
-import { createTag, updateTag } from "api/rest";
+import { createTag, getTags, updateTag } from "api/rest";
 import { Tag, TagType } from "api/models";
 import {
   getAxiosErrorMessage,
@@ -77,7 +77,27 @@ export const TagForm: React.FC<TagFormProps> = ({ tag, onSaved, onCancel }) => {
       .required(t("validation.required"))
       .min(3, t("validation.minLength", { length: 3 }))
       .max(120, t("validation.maxLength", { length: 120 }))
-      .matches(/^[- \w]+$/, t("validation.onlyCharactersAndUnderscore")),
+      .matches(/^[- \w]+$/, t("validation.onlyCharactersAndUnderscore"))
+      .when(["tagType"], (tagType: OptionWithValue<TagType>) => {
+        return string().test(
+          "duplicate",
+          t("validation.duplicate"),
+          async (value) => {
+            if (!tagType) {
+              return true;
+            }
+
+            return await getTags(
+              { tagTypeIds: [`${tagType.value.id}`] },
+              { page: 1, perPage: 3 }
+            ).then(({ data }) => {
+              return (
+                !value || !data._embedded.tag.some((f) => f.name === value)
+              );
+            });
+          }
+        );
+      }),
     tagType: mixed().required(t("validation.required")),
   });
 
@@ -198,7 +218,7 @@ export const TagForm: React.FC<TagFormProps> = ({ tag, onSaved, onCancel }) => {
             type="button"
             aria-label="cancel"
             variant={ButtonVariant.link}
-            isDisabled={formik.isSubmitting || formik.isValidating}
+            isDisabled={formik.isSubmitting}
             onClick={onCancel}
           >
             {t("actions.cancel")}

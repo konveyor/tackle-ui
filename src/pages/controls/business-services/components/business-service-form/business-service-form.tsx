@@ -22,7 +22,11 @@ import {
 import { useFetchStakeholders } from "shared/hooks";
 
 import { DEFAULT_SELECT_MAX_HEIGHT } from "Constants";
-import { createBusinessService, updateBusinessService } from "api/rest";
+import {
+  createBusinessService,
+  getBusinessServices,
+  updateBusinessService,
+} from "api/rest";
 import { BusinessService, Stakeholder } from "api/models";
 import {
   getAxiosErrorMessage,
@@ -89,7 +93,18 @@ export const BusinessServiceForm: React.FC<BusinessServiceFormProps> = ({
       .required(t("validation.required"))
       .min(3, t("validation.minLength", { length: 3 }))
       .max(120, t("validation.maxLength", { length: 120 }))
-      .matches(/^[- \w]+$/, t("validation.onlyCharactersAndUnderscore")),
+      .matches(/^[- \w]+$/, t("validation.onlyCharactersAndUnderscore"))
+      .test("duplicate", t("validation.duplicate"), async (value) => {
+        return await getBusinessServices(
+          { name: [value || ""] },
+          { page: 1, perPage: 2 }
+        ).then(({ data }) => {
+          return (
+            !value ||
+            !data._embedded["business-service"].some((f) => f.name === value)
+          );
+        });
+      }),
     description: string()
       .trim()
       .max(250, t("validation.maxLength", { length: 250 })),
@@ -233,7 +248,7 @@ export const BusinessServiceForm: React.FC<BusinessServiceFormProps> = ({
             type="button"
             aria-label="cancel"
             variant={ButtonVariant.link}
-            isDisabled={formik.isSubmitting || formik.isValidating}
+            isDisabled={formik.isSubmitting}
             onClick={onCancel}
           >
             {t("actions.cancel")}

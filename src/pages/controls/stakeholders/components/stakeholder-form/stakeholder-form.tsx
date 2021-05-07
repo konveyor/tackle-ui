@@ -22,7 +22,11 @@ import {
 import { useFetchStakeholderGroups, useFetchJobFunctions } from "shared/hooks";
 
 import { DEFAULT_SELECT_MAX_HEIGHT } from "Constants";
-import { createStakeholder, updateStakeholder } from "api/rest";
+import {
+  createStakeholder,
+  getStakeholders,
+  updateStakeholder,
+} from "api/rest";
 import { JobFunction, Stakeholder, StakeholderGroup } from "api/models";
 import {
   getAxiosErrorMessage,
@@ -117,7 +121,17 @@ export const StakeholderForm: React.FC<StakeholderFormProps> = ({
       .required(t("validation.required"))
       .min(3, t("validation.minLength", { length: 3 }))
       .max(120, t("validation.maxLength", { length: 120 }))
-      .email(t("validation.email")),
+      .email(t("validation.email"))
+      .test("duplicate", t("validation.duplicate"), async (value) => {
+        return await getStakeholders(
+          { email: [value || ""] },
+          { page: 1, perPage: 2 }
+        ).then(({ data }) => {
+          return (
+            !value || !data._embedded.stakeholder.some((f) => f.email === value)
+          );
+        });
+      }),
     displayName: string()
       .trim()
       .required(t("validation.required"))
@@ -298,7 +312,7 @@ export const StakeholderForm: React.FC<StakeholderFormProps> = ({
             type="button"
             aria-label="cancel"
             variant={ButtonVariant.link}
-            isDisabled={formik.isSubmitting || formik.isValidating}
+            isDisabled={formik.isSubmitting}
             onClick={onCancel}
           >
             {t("actions.cancel")}

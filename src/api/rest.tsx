@@ -19,6 +19,7 @@ import {
   TagTypePage,
   TagType,
   Tag,
+  TagPage,
 } from "./models";
 
 export const CONTROLS_BASE_URL = "controls";
@@ -388,6 +389,46 @@ export const getTagTypes = (
 
   const query: string[] = buildQuery(params);
   return APIClient.get(`${TAG_TYPES}?${query.join("&")}`, { headers });
+};
+
+export enum TagSortBy {
+  NAME,
+}
+export interface TagSortByQuery {
+  field: TagSortBy;
+  direction?: Direction;
+}
+
+export const getTags = (
+  filters: {
+    tagTypeIds: string[];
+  },
+  pagination: PageQuery,
+  sortBy?: TagSortByQuery
+): AxiosPromise<TagPage> => {
+  let sortByQuery: string | undefined = undefined;
+  if (sortBy) {
+    let field;
+    switch (sortBy.field) {
+      case TagSortBy.NAME:
+        field = "name";
+        break;
+      default:
+        throw new Error("Could not define SortBy field name");
+    }
+    sortByQuery = `${sortBy.direction === "desc" ? "-" : ""}${field}`;
+  }
+
+  const params = {
+    page: pagination.page - 1,
+    size: pagination.perPage,
+    sort: sortByQuery,
+
+    "tagType.id": filters.tagTypeIds,
+  };
+
+  const query: string[] = buildQuery(params);
+  return APIClient.get(`${TAGS}?${query.join("&")}`, { headers });
 };
 
 export const deleteTagType = (id: number): AxiosPromise => {

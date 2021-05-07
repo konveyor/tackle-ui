@@ -111,6 +111,7 @@
         }
     },
     "validation": {
+        "duplicate": "",
         "email": "Este campo requiere un email válido.",
         "maxLength": "Este campo debe de tener menos de {{length}} caracteres.",
         "min": "Este campo debe de ser mayor a {{value}}.",

@@ -25,7 +25,7 @@ import {
   DEFAULT_SELECT_MAX_HEIGHT,
   DEFAULT_COLOR_PALETE as DEFAULT_COLOR_PALETTE,
 } from "Constants";
-import { createTagType, updateTagType } from "api/rest";
+import { createTagType, getTagTypes, updateTagType } from "api/rest";
 import { TagType } from "api/models";
 import {
   getAxiosErrorMessage,
@@ -80,7 +80,17 @@ export const TagTypeForm: React.FC<TagTypeFormProps> = ({
       .required(t("validation.required"))
       .min(3, t("validation.minLength", { length: 3 }))
       .max(120, t("validation.maxLength", { length: 120 }))
-      .matches(/^[- \w]+$/, t("validation.onlyCharactersAndUnderscore")),
+      .matches(/^[- \w]+$/, t("validation.onlyCharactersAndUnderscore"))
+      .test("duplicate", t("validation.duplicate"), async (value) => {
+        return await getTagTypes(
+          { tagTypes: [value || ""] },
+          { page: 1, perPage: 2 }
+        ).then(({ data }) => {
+          return (
+            !value || !data._embedded["tag-type"].some((f) => f.name === value)
+          );
+        });
+      }),
     rank: number().min(1, t("validation.min", { value: 1 })),
     color: string().trim(),
   });
@@ -223,7 +233,7 @@ export const TagTypeForm: React.FC<TagTypeFormProps> = ({
             type="button"
             aria-label="cancel"
             variant={ButtonVariant.link}
-            isDisabled={formik.isSubmitting || formik.isValidating}
+            isDisabled={formik.isSubmitting}
             onClick={onCancel}
           >
             {t("actions.cancel")}
