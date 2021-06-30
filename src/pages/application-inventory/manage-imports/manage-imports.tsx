@@ -10,6 +10,7 @@ import {
   FlexItem,
   Modal,
   PageSection,
+  Popover,
   ToolbarChip,
   ToolbarGroup,
   ToolbarItem,
@@ -215,7 +216,35 @@ export const ManageImports: React.FC = () => {
         </Flex>
       );
     } else {
-      status = <StatusIcon status="Error" label={t("terms.error")} />;
+      status = (
+        <StatusIcon
+          status="Error"
+          label={
+            <Popover
+              position="right"
+              bodyContent={
+                <div>
+                  Check the documentation to ensure your file is structured
+                  correctly.
+                </div>
+              }
+              footerContent={
+                <div>
+                  <a
+                    href="https://tackle-docs.konveyor.io/documentation/doc-installing-and-using-tackle/master/index.html#importing-applications_tackle"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Check documentation
+                  </a>
+                </div>
+              }
+            >
+              <Button variant={ButtonVariant.link}>{t("terms.error")}</Button>
+            </Popover>
+          }
+        />
+      );
     }
 
     rows.push({
