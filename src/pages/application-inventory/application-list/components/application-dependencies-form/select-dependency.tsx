@@ -96,7 +96,12 @@ export const SelectDependency: React.FC<SelectDependencyProps> = ({
               setSaveError(error);
             });
         } else {
-          createApplicationDependency(selectionWithValue.value)
+          // Remove the 'review' field to avoid the error reported in https://issues.redhat.com/browse/TACKLE-282
+          createApplicationDependency({
+            ...selectionWithValue.value,
+            from: { ...selectionWithValue.value.from, review: undefined },
+            to: { ...selectionWithValue.value.to, review: undefined },
+          })
             .then(({ data }) => {
               let nextValue: OptionWithValue<ApplicationDependency>[];
               nextValue = [...value, dependencyToOption(data, toStringFn)];
