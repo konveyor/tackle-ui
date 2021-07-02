@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: application-inventory-db
+  labels:
+    app.kubernetes.io/name: application-inventory-db
+    app.kubernetes.io/version: "10.6"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: application-inventory-db
+    app.kubernetes.io/part-of: tackle
+spec:
+  ports:
+    - name: tcp
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    app.kubernetes.io/name: application-inventory-db
+    app.kubernetes.io/version: "10.6"
+  type: ClusterIP
+  sessionAffinity: None

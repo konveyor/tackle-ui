@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/q/metrics"
+  labels:
+    app.kubernetes.io/component: rest
+    app.kubernetes.io/name: tackle-application-inventory
+    app.kubernetes.io/part-of: tackle
+  name: tackle-application-inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tackle-application-inventory
+      app.kubernetes.io/part-of: tackle
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/q/metrics"
+      labels:
+        app.kubernetes.io/component: rest
+        app.kubernetes.io/name: tackle-application-inventory
+        app.kubernetes.io/part-of: tackle
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: application-inventory_username
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: application-inventory_password
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: jdbc:postgresql://application-inventory-db:5432/application-inventory_db
+            - name: QUARKUS_OIDC_AUTH_SERVER_URL
+              value: http://keycloak:8080/auth/realms/konveyor
+            - name: QUARKUS_OIDC_CLIENT_ID
+              value: application-inventory-api
+            - name: QUARKUS_OIDC_CREDENTIALS_SECRET
+              value: secret
+          image: quay.io/konveyor/tackle-application-inventory:latest-native
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: "/application-inventory/q/health/live"
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: tackle-application-inventory
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: "/application-inventory/q/health/ready"
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          resources: {}

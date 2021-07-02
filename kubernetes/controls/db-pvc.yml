@@ -1,0 +1,16 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: controls-db
+  labels:
+    app.kubernetes.io/name: controls-db
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: controls-db
+    app.kubernetes.io/part-of: tackle
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem

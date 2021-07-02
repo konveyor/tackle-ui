@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: tackle-ui
+  labels:
+    app.kubernetes.io/name: tackle-ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/instance: tackle-ui
+    app.kubernetes.io/part-of: tackle
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: tackle-ui

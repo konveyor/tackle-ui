@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scheme: http
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: "/q/metrics"
+    prometheus.io/port: '8080'
+  labels:
+    app.kubernetes.io/name: tackle-pathfinder
+    app.kubernetes.io/part-of: tackle
+    app.kubernetes.io/component: rest
+    app.openshift.io/runtime: quarkus
+  name: tackle-pathfinder
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: tackle-pathfinder
+    app.kubernetes.io/part-of: tackle
+  type: ClusterIP
