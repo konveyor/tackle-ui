@@ -33,11 +33,15 @@ import {
 import {
   useTableControls,
   useFetchBusinessServices,
-  useDeleteBusinessService,
+  useDelete,
 } from "shared/hooks";
 
 import { BusinessService, SortByQuery } from "api/models";
-import { BusinessServiceSortBy, BusinessServiceSortByQuery } from "api/rest";
+import {
+  BusinessServiceSortBy,
+  BusinessServiceSortByQuery,
+  deleteBusinessService,
+} from "api/rest";
 import { getAxiosErrorMessage } from "utils/utils";
 
 import { NewBusinessServiceModal } from "./components/new-business-service-modal";
@@ -105,7 +109,11 @@ export const BusinessServices: React.FC = () => {
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
   const [rowToUpdate, setRowToUpdate] = useState<BusinessService>();
 
-  const { deleteBusinessService } = useDeleteBusinessService();
+  const {
+    requestDelete: requestDeleteBusinessService,
+  } = useDelete<BusinessService>({
+    onDelete: (t: BusinessService) => deleteBusinessService(t.id!),
+  });
 
   const {
     businessServices,
@@ -236,7 +244,7 @@ export const BusinessServices: React.FC = () => {
         cancelBtnLabel: t("actions.cancel"),
         onConfirm: () => {
           dispatch(confirmDialogActions.processing());
-          deleteBusinessService(
+          requestDeleteBusinessService(
             row,
             () => {
               dispatch(confirmDialogActions.closeDialog());

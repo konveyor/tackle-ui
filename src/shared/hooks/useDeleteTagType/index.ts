@@ -1,1 +1,0 @@
-export { useDeleteTagType } from "./useDeleteTagType";

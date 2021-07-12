@@ -41,11 +41,15 @@ import {
 import {
   useTableControls,
   useFetchStakeholderGroups,
-  useDeleteStakeholderGroup,
+  useDelete,
 } from "shared/hooks";
 
 import { getAxiosErrorMessage } from "utils/utils";
-import { StakeholderGroupSortBy, StakeholderGroupSortByQuery } from "api/rest";
+import {
+  deleteStakeholderGroup,
+  StakeholderGroupSortBy,
+  StakeholderGroupSortByQuery,
+} from "api/rest";
 import { StakeholderGroup, SortByQuery } from "api/models";
 
 import { NewStakeholderGroupModal } from "./components/new-stakeholder-group-modal";
@@ -113,7 +117,11 @@ export const StakeholderGroups: React.FC = () => {
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
   const [rowToUpdate, setRowToUpdate] = useState<StakeholderGroup>();
 
-  const { deleteStakeholderGroup } = useDeleteStakeholderGroup();
+  const {
+    requestDelete: requestDeleteStakeholderGroup,
+  } = useDelete<StakeholderGroup>({
+    onDelete: (t: StakeholderGroup) => deleteStakeholderGroup(t.id!),
+  });
 
   const {
     stakeholderGroups,
@@ -264,7 +272,7 @@ export const StakeholderGroups: React.FC = () => {
         cancelBtnLabel: t("actions.cancel"),
         onConfirm: () => {
           dispatch(confirmDialogActions.processing());
-          deleteStakeholderGroup(
+          requestDeleteStakeholderGroup(
             row,
             () => {
               dispatch(confirmDialogActions.closeDialog());

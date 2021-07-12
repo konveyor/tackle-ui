@@ -33,15 +33,15 @@ import {
   SearchFilter,
   Color,
 } from "shared/components";
-import {
-  useTableControls,
-  useDeleteTagType,
-  useFetchTagTypes,
-  useDeleteTag,
-} from "shared/hooks";
+import { useTableControls, useFetchTagTypes, useDelete } from "shared/hooks";
 
 import { getAxiosErrorMessage } from "utils/utils";
-import { TagTypeSortBy, TagTypeSortByQuery } from "api/rest";
+import {
+  deleteTag,
+  deleteTagType,
+  TagTypeSortBy,
+  TagTypeSortByQuery,
+} from "api/rest";
 import { SortByQuery, Tag, TagType } from "api/models";
 
 import { NewTagTypeModal } from "./components/new-tag-type-modal";
@@ -116,8 +116,12 @@ export const Tags: React.FC = () => {
   const [isNewTagModalOpen, setIsNewTagModalOpen] = useState(false);
   const [tagToUpdate, setTagToUpdate] = useState<Tag>();
 
-  const { deleteTagType } = useDeleteTagType();
-  const { deleteTag } = useDeleteTag();
+  const { requestDelete: requestDeleteTagType } = useDelete<TagType>({
+    onDelete: (t: TagType) => deleteTagType(t.id!),
+  });
+  const { requestDelete: requestDeleteTag } = useDelete<Tag>({
+    onDelete: (t: Tag) => deleteTag(t.id!),
+  });
 
   const { tagTypes, isFetching, fetchError, fetchTagTypes } = useFetchTagTypes(
     true
@@ -176,7 +180,7 @@ export const Tags: React.FC = () => {
         cancelBtnLabel: t("actions.cancel"),
         onConfirm: () => {
           dispatch(confirmDialogActions.processing());
-          deleteTag(
+          requestDeleteTag(
             row,
             () => {
               dispatch(confirmDialogActions.closeDialog());
@@ -296,7 +300,7 @@ export const Tags: React.FC = () => {
         cancelBtnLabel: t("actions.cancel"),
         onConfirm: () => {
           dispatch(confirmDialogActions.processing());
-          deleteTagType(
+          requestDeleteTagType(
             row,
             () => {
               dispatch(confirmDialogActions.closeDialog());

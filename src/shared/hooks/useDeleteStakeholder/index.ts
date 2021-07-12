@@ -1,1 +1,0 @@
-export { useDeleteStakeholder } from "./useDeleteStakeholder";

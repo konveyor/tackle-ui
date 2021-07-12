@@ -1,14 +1,7 @@
 export { useApplicationToolbarFilter } from "./useApplicationToolbarFilter";
 export { useAssessApplication } from "./useAssessApplication";
 export { useDelete } from "./useDelete";
-export { useDeleteApplication } from "./useDeleteApplication";
-export { useDeleteBusinessService } from "./useDeleteBusinessService";
-export { useDeleteJobFunction } from "./useDeleteJobFunction";
-export { useDeleteStakeholder } from "./useDeleteStakeholder";
-export { useDeleteStakeholderGroup } from "./useDeleteStakeholderGroup";
 export { useFetchApplicationDependencies } from "./useFetchApplicationDependencies";
-export { useDeleteTag } from "./useDeleteTag";
-export { useDeleteTagType } from "./useDeleteTagType";
 export { useEntityModal } from "./useEntityModal";
 export { useFetch } from "./useFetch";
 export { useFetchApplications } from "./useFetchApplications";
