@@ -53,11 +53,15 @@ export const StakeholdersForm: React.FC<StakeholdersFormProps> = () => {
     <div className="pf-c-form">
       <FormSection>
         <TextContent>
-          <Text component="h1">Select stakeholders</Text>
-          <Text component="p">
-            Select the stakeholder(s) or stakeholder group(s) associated with
-            this assessment.
+          <Text component="h1">
+            {
+              // t('terms.stakeholders')
+              t("composed.selectMany", {
+                what: t("terms.stakeholders").toLowerCase(),
+              })
+            }
           </Text>
+          <Text component="p">{t("message.assessmentStakeholderHeader")}</Text>
         </TextContent>
       </FormSection>
 

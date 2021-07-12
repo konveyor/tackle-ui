@@ -694,7 +694,7 @@ export const ApplicationList: React.FC = () => {
                             );
                           }}
                         >
-                          Manage imports
+                          {t("actions.manageImports")}
                         </DropdownItem>,
                       ]}
                     />

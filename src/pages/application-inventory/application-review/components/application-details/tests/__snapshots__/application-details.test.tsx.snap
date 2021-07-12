@@ -4,7 +4,7 @@ exports[`AppTable Renders without crashing 1`] = `
 <DescriptionList>
   <DescriptionListGroup>
     <DescriptionListTerm>
-      Application name
+      terms.applicationName
     </DescriptionListTerm>
     <DescriptionListDescription>
       myApp
@@ -12,7 +12,7 @@ exports[`AppTable Renders without crashing 1`] = `
   </DescriptionListGroup>
   <DescriptionListGroup>
     <DescriptionListTerm>
-      Description
+      terms.description
     </DescriptionListTerm>
     <DescriptionListDescription>
       myDescription
@@ -20,7 +20,7 @@ exports[`AppTable Renders without crashing 1`] = `
   </DescriptionListGroup>
   <DescriptionListGroup>
     <DescriptionListTerm>
-      Assessment notes
+      terms.assessmentNotes
     </DescriptionListTerm>
     <DescriptionListDescription>
       <List>

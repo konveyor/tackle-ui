@@ -150,7 +150,7 @@ export const Reports: React.FC = () => {
                 <Card>
                   <CardHeader>
                     <TextContent>
-                      <Text component="h3">Current landscape</Text>
+                      <Text component="h3">{t("terms.currentLandscape")}</Text>
                     </TextContent>
                   </CardHeader>
                   <CardBody>
@@ -167,7 +167,7 @@ export const Reports: React.FC = () => {
                       <ToggleGroup>
                         <ToggleGroupItem
                           key={0}
-                          text="Table view"
+                          text={t("terms.tableView")}
                           isSelected={isAdoptionCandidateTable}
                           onChange={() => {
                             setIsAdoptionCandidateTable(true);
@@ -175,7 +175,7 @@ export const Reports: React.FC = () => {
                         />
                         <ToggleGroupItem
                           key={1}
-                          text="Graph view"
+                          text={t("terms.graphView")}
                           isSelected={!isAdoptionCandidateTable}
                           onChange={() => {
                             setIsAdoptionCandidateTable(false);
@@ -186,7 +186,7 @@ export const Reports: React.FC = () => {
                     <CardTitle>
                       <TextContent>
                         <Text component="h3">
-                          Adoption candidate distribution
+                          {t("terms.adoptionCandidateDistribution")}
                         </Text>
                       </TextContent>
                     </CardTitle>
@@ -211,7 +211,7 @@ export const Reports: React.FC = () => {
                           <Bullseye style={{ marginTop: -3 }}>
                             <TextContent>
                               <Text component="h3">
-                                Suggested adoption plan
+                                {t("terms.suggestedAdoptionPlan")}
                               </Text>
                             </TextContent>
                           </Bullseye>
@@ -256,7 +256,9 @@ export const Reports: React.FC = () => {
                         <SplitItem>
                           <Bullseye>
                             <TextContent>
-                              <Text component="h3">Identified risks</Text>
+                              <Text component="h3">
+                                {t("terms.identifiedRisks")}
+                              </Text>
                             </TextContent>
                           </Bullseye>
                         </SplitItem>

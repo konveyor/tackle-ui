@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
   Dropdown,
   DropdownItem,
@@ -26,6 +28,9 @@ export const ToolbarBulkSelector: React.FC<IToolbarBulkSelectorProps> = ({
   onSelectNone,
   onSelectCurrentPage,
 }) => {
+  // i18
+  const { t } = useTranslation();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const onDropDownSelect = () => {
@@ -43,13 +48,13 @@ export const ToolbarBulkSelector: React.FC<IToolbarBulkSelectorProps> = ({
       onSelect={onDropDownSelect}
       dropdownItems={[
         <DropdownItem key="item-1" onClick={onSelectNone}>
-          Select none (0 items)
+          {t("actions.selectNone")} (0 items)
         </DropdownItem>,
         <DropdownItem key="item-2" onClick={onSelectCurrentPage}>
-          Select page ({perPage} items)
+          {t("actions.selectPage")} ({perPage} items)
         </DropdownItem>,
         <DropdownItem key="item-3" onClick={onSelectAll}>
-          Select all ({totalItems} items)
+          {t("actions.selectAll")} ({totalItems} items)
         </DropdownItem>,
       ]}
       toggle={
@@ -73,7 +78,11 @@ export const ToolbarBulkSelector: React.FC<IToolbarBulkSelectorProps> = ({
             ></DropdownToggleCheckbox>,
           ]}
         >
-          {totalSelectedRows !== 0 && <>{totalSelectedRows} selected</>}
+          {totalSelectedRows !== 0 && (
+            <>
+              {totalSelectedRows} {t("terms.selected").toLowerCase()}
+            </>
+          )}
         </DropdownToggle>
       }
     />

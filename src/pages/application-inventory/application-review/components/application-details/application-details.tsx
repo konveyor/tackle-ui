@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   DescriptionList,
@@ -20,22 +21,24 @@ export const ApplicationDetails: React.FC<IApplicationDetailsProps> = ({
   application,
   assessment,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <DescriptionList>
       <DescriptionListGroup>
-        <DescriptionListTerm>Application name</DescriptionListTerm>
+        <DescriptionListTerm>{t("terms.applicationName")}</DescriptionListTerm>
         <DescriptionListDescription>
           {application.name}
         </DescriptionListDescription>
       </DescriptionListGroup>
       <DescriptionListGroup>
-        <DescriptionListTerm>Description</DescriptionListTerm>
+        <DescriptionListTerm>{t("terms.description")}</DescriptionListTerm>
         <DescriptionListDescription>
           {application.description}
         </DescriptionListDescription>
       </DescriptionListGroup>
       <DescriptionListGroup>
-        <DescriptionListTerm>Assessment notes</DescriptionListTerm>
+        <DescriptionListTerm>{t("terms.assessmentNotes")}</DescriptionListTerm>
         <DescriptionListDescription>
           <List>
             {assessment?.questionnaire.categories

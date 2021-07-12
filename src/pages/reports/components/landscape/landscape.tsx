@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Skeleton, Split, SplitItem } from "@patternfly/react-core";
 
@@ -50,6 +51,8 @@ const extractLandscapeData = (
 export interface ILandscapeProps {}
 
 export const Landscape: React.FC<ILandscapeProps> = () => {
+  const { t } = useTranslation();
+
   // Context
   const { allItems: applications } = useContext(ApplicationSelectionContext);
 
@@ -110,8 +113,8 @@ export const Landscape: React.FC<ILandscapeProps> = () => {
               value={landscapeData.low}
               total={applications.length}
               color={RISK_LIST["GREEN"].hexColor}
-              riskLabel="Low risk"
-              riskDescription="Cloud-native ready"
+              riskLabel={t("terms.lowRisk")}
+              riskDescription={t("terms.cloudNativeReady")}
             />
           </SplitItem>
           <SplitItem>
@@ -119,8 +122,8 @@ export const Landscape: React.FC<ILandscapeProps> = () => {
               value={landscapeData.medium}
               total={applications.length}
               color={RISK_LIST["AMBER"].hexColor}
-              riskLabel="Medium risk"
-              riskDescription="Modernizable"
+              riskLabel={t("terms.mediumRisk")}
+              riskDescription={t("terms.modernizable")}
             />
           </SplitItem>
           <SplitItem>
@@ -128,8 +131,8 @@ export const Landscape: React.FC<ILandscapeProps> = () => {
               value={landscapeData.high}
               total={applications.length}
               color={RISK_LIST["RED"].hexColor}
-              riskLabel="High risk"
-              riskDescription="Unsuitable for containers"
+              riskLabel={t("terms.highRisk")}
+              riskDescription={t("terms.unsuitableForContainers")}
             />
           </SplitItem>
           <SplitItem>
@@ -137,8 +140,8 @@ export const Landscape: React.FC<ILandscapeProps> = () => {
               value={landscapeData.unassesed}
               total={applications.length}
               color={RISK_LIST["UNKNOWN"].hexColor}
-              riskLabel="Unassessed"
-              riskDescription="Not yet assessed"
+              riskLabel={t("terms.unassesed")}
+              riskDescription={t("terms.notYetAssessed")}
             />
           </SplitItem>
         </Split>

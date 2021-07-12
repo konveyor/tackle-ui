@@ -94,7 +94,9 @@ export const QuestionnaireForm: React.FC<QuestionnaireFormProps> = ({
       ))}
       <StackItem>
         <Question>
-          <QuestionHeader>Additional notes or comments</QuestionHeader>
+          <QuestionHeader>
+            {t("terms.additionalNotesOrComments")}
+          </QuestionHeader>
           <QuestionBody>
             <Field name={commentFieldName} validate={validateComment}>
               {({ field, form, meta }: any) => (

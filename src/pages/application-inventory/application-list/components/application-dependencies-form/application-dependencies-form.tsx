@@ -134,12 +134,7 @@ export const ApplicationDependenciesForm: React.FC<ApplicationDependenciesFormPr
   return (
     <Form>
       <TextContent>
-        <Text component="p">
-          Add northbound and southbound dependencies for the selected
-          application here. Note that any selections made will be saved
-          automatically. To undo any changes, you must manually delete the
-          applications from the dropdowns.
-        </Text>
+        <Text component="p">{t("message.manageDependenciesInstructions")}</Text>
       </TextContent>
 
       <FormGroup

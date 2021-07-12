@@ -214,7 +214,7 @@ export const ApplicationReview: React.FC = () => {
           <Card>
             <CardHeader>
               <TextContent>
-                <Text component="h3">Assessment summary</Text>
+                <Text component="h3">{t("terms.assessmentSummary")}</Text>
               </TextContent>
             </CardHeader>
             <ApplicationAssessmentSummaryTable assessment={assessment} />

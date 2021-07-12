@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import Measure from "react-measure";
+import { useTranslation } from "react-i18next";
 
 import {
   Bullseye,
@@ -116,6 +117,8 @@ const defaultChartData: ProposedActionChartDataListType = {
 };
 
 export const AdoptionCandidateGraph: React.FC = () => {
+  const { t } = useTranslation();
+
   // Context
   const { selectedItems: applications } = useContext(
     ApplicationSelectionContext
@@ -267,7 +270,7 @@ export const AdoptionCandidateGraph: React.FC = () => {
           <Checkbox
             id="show-dependencies"
             name="show-dependencies"
-            label="Dependencies"
+            label={t("terms.dependencies")}
             isChecked={showDependencies}
             onChange={() => setShowDependencies((current) => !current)}
           />
@@ -345,7 +348,7 @@ export const AdoptionCandidateGraph: React.FC = () => {
                         }}
                       />
                       <ChartAxis
-                        label="Business criticality"
+                        label={t("terms.businessCriticality")}
                         showGrid
                         dependentAxis
                         tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}

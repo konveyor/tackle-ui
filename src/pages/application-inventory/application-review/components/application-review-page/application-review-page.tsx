@@ -16,10 +16,7 @@ export const ApplicationReviewPage: React.FC = ({ children }) => {
         <PageHeader
           title={t("terms.review")}
           description={
-            <Text component="p">
-              Use this section to provide your assessment of the possible
-              migration/modernization plan and effort estimation.
-            </Text>
+            <Text component="p">{t("message.reviewInstructions")}</Text>
           }
           breadcrumbs={[
             {
