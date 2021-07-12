@@ -1,3 +1,6 @@
+@import "~@patternfly/patternfly/patternfly.css";
+@import "~@patternfly/patternfly/patternfly-addons.css";
+
 /* 
 * Override select's border due to PostCSS changing it during 'yarn build'
 * https://github.com/patternfly/patternfly-react/issues/5650#issuecomment-818259040

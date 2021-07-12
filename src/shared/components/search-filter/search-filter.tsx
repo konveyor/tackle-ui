@@ -21,7 +21,9 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
   onApplyFilter,
 }) => {
   const [filterText, setFilterText] = useState("");
-  const [selected, setSelected] = useState<DropdownOption>(options[0]);
+  const [selected, setSelected] = useState<DropdownOption | undefined>(
+    options[0]
+  );
 
   const handleOnSelect = (dropdownOption: {
     key: string;
@@ -36,7 +38,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
   };
 
   const handleOnSearch = () => {
-    if (filterText.trim().length > 0) {
+    if (filterText.trim().length > 0 && selected) {
       onApplyFilter(selected.key, filterText.trim());
       setFilterText("");
     }
@@ -51,7 +53,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
   return (
     <InputGroup>
       <SimpleFilterDropdown
-        label={selected.name}
+        label={selected?.name}
         options={[...options]}
         onSelect={handleOnSelect}
       />

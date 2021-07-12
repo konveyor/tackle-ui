@@ -42,6 +42,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "cypress:open-ct": "cypress open-ct",
+    "cypress:run-ct": "cypress run-ct",
     "extract": "i18next --config i18next-parser.config.js",
     "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
@@ -73,6 +75,8 @@
   "devDependencies": {
     "@cypress/code-coverage": "^3.9.7",
     "@cypress/instrument-cra": "^1.4.0",
+    "@cypress/react": "^5.5.0",
+    "@cypress/webpack-dev-server": "^1.1.6",
     "@storybook/addon-actions": "^6.1.14",
     "@storybook/addon-essentials": "^6.1.14",
     "@storybook/addon-links": "^6.1.14",
@@ -108,7 +112,8 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
-      "!src/**/*.stories.*"
+      "!src/**/*.stories.*",
+      "!src/**/*.cypress.*"
     ]
   },
   "husky": {

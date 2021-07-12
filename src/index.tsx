@@ -14,7 +14,7 @@ import keycloak from "./keycloak";
 import i18n from "./i18n";
 import { NinjaErrorBoundary } from "./ninja-error-boundary";
 
-import "./index.css";
+import "./index.scss";
 
 initApi();
 i18n.init();

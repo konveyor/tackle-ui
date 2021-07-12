@@ -14,5 +14,12 @@
   "retries": {
     "runMode": 2,
     "openMode": 0
+  },
+  "nodeVersion": "system",
+  "component": {
+    "componentFolder": "src",
+    "testFiles": "**/cypress/*.cypress.tsx",
+    "viewportHeight": 500,
+    "viewportWidth": 700
   }
 }
