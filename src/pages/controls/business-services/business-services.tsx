@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import {
   Button,
   ButtonVariant,
+  Modal,
+  ModalVariant,
   ToolbarChip,
   ToolbarGroup,
   ToolbarItem,
@@ -34,14 +36,14 @@ import {
   useTableControls,
   useFetchBusinessServices,
   useDeleteBusinessService,
+  useEntityModal,
 } from "shared/hooks";
 
 import { BusinessService, SortByQuery } from "api/models";
 import { BusinessServiceSortBy, BusinessServiceSortByQuery } from "api/rest";
 import { getAxiosErrorMessage } from "utils/utils";
 
-import { NewBusinessServiceModal } from "./components/new-business-service-modal";
-import { UpdateBusinessServiceModal } from "./components/update-business-service-modal";
+import { BusinessServiceForm } from "./components/business-service-form";
 
 enum FilterKey {
   NAME = "name",
@@ -102,8 +104,13 @@ export const BusinessServices: React.FC = () => {
     new Map([])
   );
 
-  const [isNewModalOpen, setIsNewModalOpen] = useState(false);
-  const [rowToUpdate, setRowToUpdate] = useState<BusinessService>();
+  const {
+    isOpen: isBusinessServiceModalOpen,
+    data: businessServiceToUpdate,
+    create: openCreateBusinessServiceModal,
+    update: openUpdateBusinessServiceModal,
+    close: closeBusinessServiceModal,
+  } = useEntityModal<BusinessService>();
 
   const { deleteBusinessService } = useDeleteBusinessService();
 
@@ -219,7 +226,7 @@ export const BusinessServices: React.FC = () => {
   // ];
 
   const editRow = (row: BusinessService) => {
-    setRowToUpdate(row);
+    openUpdateBusinessServiceModal(row);
   };
 
   const deleteRow = (row: BusinessService) => {
@@ -288,41 +295,25 @@ export const BusinessServices: React.FC = () => {
     );
   };
 
-  // Create Modal
+  // Create/update Modal
 
-  const handleOnOpenCreateNewBusinessServiceModal = () => {
-    setIsNewModalOpen(true);
-  };
-
-  const handleOnBusinessServiceCreated = (
+  const handleOnBusinessServiceFormSaved = (
     response: AxiosResponse<BusinessService>
   ) => {
-    setIsNewModalOpen(false);
+    if (!businessServiceToUpdate) {
+      dispatch(
+        alertActions.addSuccess(
+          // t('terms.businessService')
+          t("toastr.success.added", {
+            what: response.data.name,
+            type: t("terms.businessService").toLowerCase(),
+          })
+        )
+      );
+    }
+
+    closeBusinessServiceModal();
     refreshTable();
-
-    dispatch(
-      alertActions.addSuccess(
-        t("toastr.success.added", {
-          what: response.data.name,
-          type: "business service",
-        })
-      )
-    );
-  };
-
-  const handleOnCancelCreateBusinessService = () => {
-    setIsNewModalOpen(false);
-  };
-
-  // Update Modal
-
-  const handleOnBusinessServiceUpdated = () => {
-    setRowToUpdate(undefined);
-    refreshTable();
-  };
-
-  const handleOnCancelUpdateBusinessService = () => {
-    setRowToUpdate(undefined);
   };
 
   return (
@@ -369,7 +360,7 @@ export const BusinessServices: React.FC = () => {
                   type="button"
                   aria-label="create-business-service"
                   variant={ButtonVariant.primary}
-                  onClick={handleOnOpenCreateNewBusinessServiceModal}
+                  onClick={openCreateBusinessServiceModal}
                 >
                   {t("actions.createNew")}
                 </Button>
@@ -393,16 +384,23 @@ export const BusinessServices: React.FC = () => {
         />
       </ConditionalRender>
 
-      <NewBusinessServiceModal
-        isOpen={isNewModalOpen}
-        onSaved={handleOnBusinessServiceCreated}
-        onCancel={handleOnCancelCreateBusinessService}
-      />
-      <UpdateBusinessServiceModal
-        businessService={rowToUpdate}
-        onSaved={handleOnBusinessServiceUpdated}
-        onCancel={handleOnCancelUpdateBusinessService}
-      />
+      <Modal
+        // t('dialog.title.update')
+        // t('dialog.title.new')
+        // t('terms.businessService')
+        title={t(`dialog.title.${businessServiceToUpdate ? "update" : "new"}`, {
+          what: t("terms.businessService").toLowerCase(),
+        })}
+        variant={ModalVariant.medium}
+        isOpen={isBusinessServiceModalOpen}
+        onClose={closeBusinessServiceModal}
+      >
+        <BusinessServiceForm
+          businessService={businessServiceToUpdate}
+          onSaved={handleOnBusinessServiceFormSaved}
+          onCancel={closeBusinessServiceModal}
+        />
+      </Modal>
     </>
   );
 };
