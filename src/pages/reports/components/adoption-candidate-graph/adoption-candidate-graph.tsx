@@ -312,11 +312,14 @@ export const AdoptionCandidateGraph: React.FC = () => {
                       style={{
                         background: { fill: "url(#axis_gradient)" },
                       }}
+                      singleQuadrantDomainPadding={false}
+                      domainPadding={{ x: 65, y: 40 }}
                     >
                       <ChartAxis
                         label="Confidence"
                         showGrid
                         tickValues={[
+                          -5,
                           0,
                           5,
                           10,
@@ -338,20 +341,21 @@ export const AdoptionCandidateGraph: React.FC = () => {
                           90,
                           95,
                           100,
+                          105,
                         ]}
                         tickLabelComponent={<></>}
                         style={{
-                          axisLabel: { fontSize: 20, padding: 30 },
+                          axisLabel: { fontSize: 20, padding: 55 },
                         }}
                       />
                       <ChartAxis
                         label="Business criticality"
                         showGrid
                         dependentAxis
-                        tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                        tickValues={[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
                         tickLabelComponent={<></>}
                         style={{
-                          axisLabel: { fontSize: 20, padding: 30 },
+                          axisLabel: { fontSize: 20, padding: 80 },
                         }}
                       />
                       <CartesianSquare
