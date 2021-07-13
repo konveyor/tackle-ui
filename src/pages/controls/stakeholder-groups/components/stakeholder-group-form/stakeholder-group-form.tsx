@@ -197,6 +197,10 @@ export const StakeholderGroupForm: React.FC<StakeholderGroupFormProps> = ({
               variant: "typeaheadmulti",
               "aria-label": "stakeholders",
               "aria-describedby": "stakeholders",
+              typeAheadAriaLabel: "stakeholders",
+              toggleAriaLabel: "stakeholders",
+              clearSelectionsAriaLabel: "stakeholders",
+              removeSelectionAriaLabel: "stakeholders",
               placeholderText: t("composed.selectOne", {
                 what: t("terms.member").toLowerCase(),
               }),

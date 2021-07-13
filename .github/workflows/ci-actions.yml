@@ -313,9 +313,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_auth_base_url: http://localhost:3000/auth
-          CYPRESS_controls_base_url: http://localhost:8081/controls
-          CYPRESS_application_inventory_base_url: http://localhost:8082/application-inventory
-          CYPRESS_pathfinder_base_url: http://localhost:8083/pathfinder
       - uses: actions/upload-artifact@v1
         if: failure()
         with:

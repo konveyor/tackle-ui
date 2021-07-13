@@ -1,0 +1,33 @@
+name: PR build container images
+
+on: [push]
+
+jobs:
+  container-images:
+    if: ${{ github.event_name != 'pull_request' && github.repository_owner != 'konveyor' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Push to GitHub Packages
+        uses: elgohr/Publish-Docker-Github-Action@3.02
+        with:
+          registry: docker.pkg.github.com
+          name: ${{ github.repository_owner }}/${{ github.event.repository.name }}/tackle-ui
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile: Dockerfile
+          snapshot: false
+          tags: "${{ steps.extract_branch.outputs.branch }}"
+          buildoptions: "--pull"

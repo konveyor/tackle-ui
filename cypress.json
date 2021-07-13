@@ -3,10 +3,7 @@
   "env": {
     "auth_base_url": "http://localhost:8180/auth",
     "auth_realm": "konveyor",
-    "auth_client_id": "tackle-ui",
-    "controls_base_url": "http://localhost:8081/controls",
-    "application_inventory_base_url": "http://localhost:8082/application-inventory",
-    "pathfinder_base_url": "http://localhost:8083/pathfinder"
+    "auth_client_id": "tackle-ui"
   },
   "viewportWidth": 1280,
   "viewportHeight": 1024,

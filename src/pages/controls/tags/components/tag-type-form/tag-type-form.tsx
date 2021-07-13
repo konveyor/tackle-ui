@@ -181,6 +181,10 @@ export const TagTypeForm: React.FC<TagTypeFormProps> = ({
               variant: "single",
               "aria-label": "color",
               "aria-describedby": "color",
+              typeAheadAriaLabel: "color",
+              toggleAriaLabel: "color",
+              clearSelectionsAriaLabel: "color",
+              removeSelectionAriaLabel: "color",
               placeholderText: t("composed.selectOne", {
                 what: t("terms.color").toLowerCase(),
               }),

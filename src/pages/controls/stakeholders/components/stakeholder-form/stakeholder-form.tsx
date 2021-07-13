@@ -225,6 +225,10 @@ export const StakeholderForm: React.FC<StakeholderFormProps> = ({
               variant: "typeahead",
               "aria-label": "job-function",
               "aria-describedby": "job-function",
+              typeAheadAriaLabel: "job-function",
+              toggleAriaLabel: "job-function",
+              clearSelectionsAriaLabel: "job-function",
+              removeSelectionAriaLabel: "job-function",
               placeholderText: t("composed.selectOne", {
                 what: t("terms.jobFunction").toLowerCase(),
               }),
@@ -250,6 +254,10 @@ export const StakeholderForm: React.FC<StakeholderFormProps> = ({
               variant: "typeaheadmulti",
               "aria-label": "stakeholder-groups",
               "aria-describedby": "stakeholder-groups",
+              typeAheadAriaLabel: "stakeholder-groups",
+              toggleAriaLabel: "stakeholder-groups",
+              clearSelectionsAriaLabel: "stakeholder-groups",
+              removeSelectionAriaLabel: "stakeholder-groups",
               placeholderText: t("composed.selectOne", {
                 what: t("terms.group").toLowerCase(),
               }),

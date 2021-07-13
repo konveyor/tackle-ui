@@ -79,6 +79,10 @@ export const StakeholdersForm: React.FC<StakeholdersFormProps> = () => {
                   variant: "typeaheadmulti",
                   "aria-label": "stakeholders",
                   "aria-describedby": "stakeholders",
+                  typeAheadAriaLabel: "stakeholders",
+                  toggleAriaLabel: "stakeholders",
+                  clearSelectionsAriaLabel: "stakeholders",
+                  removeSelectionAriaLabel: "stakeholders",
                   // t('terms.stakeholder(s)')
                   placeholderText: t("composed.selectMany", {
                     what: t("terms.stakeholder(s)").toLowerCase(),
@@ -105,6 +109,10 @@ export const StakeholdersForm: React.FC<StakeholdersFormProps> = () => {
                   variant: "typeaheadmulti",
                   "aria-label": "stakeholder-groups",
                   "aria-describedby": "stakeholder-groups",
+                  typeAheadAriaLabel: "stakeholder-groups",
+                  toggleAriaLabel: "stakeholder-groups",
+                  clearSelectionsAriaLabel: "stakeholder-groups",
+                  removeSelectionAriaLabel: "stakeholder-groups",
                   // t('terms.stakeholderGroup(s)')
                   placeholderText: t("composed.selectMany", {
                     what: t("terms.stakeholderGroup(s)").toLowerCase(),
