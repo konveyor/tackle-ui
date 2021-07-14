@@ -40,7 +40,7 @@ http {
 
     server {
         listen       8080 default_server;
-        listen       [::]:8080 default_server;
+        ${LISTEN_IPV6}
         server_name  _;
         root         /opt/app-root/src;
 

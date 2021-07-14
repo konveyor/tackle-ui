@@ -30,9 +30,14 @@ if [[ -z "$SSO_CLIENT_ID" ]]; then
   exit 1
 fi
 
+export LISTEN_IPV6="listen       [::]:8080 default_server;"
+if [ "$DISABLE_IPV6" = true ] ; then
+  export LISTEN_IPV6="# ${LISTEN_IPV6}"
+fi
+
 if [ -f ./nginx.conf.template ]; then
   echo "---> Processing nginx.conf.template configuration file..."
-  envsubst '${CONTROLS_API_URL} ${SSO_SERVER_URL} ${APPLICATION_INVENTORY_API_URL} ${PATHFINDER_API_URL}' < ./nginx.conf.template > ./nginx.conf
+  envsubst '${LISTEN_IPV6} ${CONTROLS_API_URL} ${SSO_SERVER_URL} ${APPLICATION_INVENTORY_API_URL} ${PATHFINDER_API_URL}' < ./nginx.conf.template > ./nginx.conf
   cp -v ./nginx.conf "${NGINX_CONF_PATH}"
   rm -f ./nginx.conf
 fi
